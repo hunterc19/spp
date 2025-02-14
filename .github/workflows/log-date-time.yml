@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Grant push permissions
+      workflows: write # Grant permissions to workflows
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
