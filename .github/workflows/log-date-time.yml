@@ -1,0 +1,32 @@
+name: Log Date and Time
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at midnight UTC every day
+    - cron: '0 12 * * *' # Runs at noon UTC every day
+
+jobs:
+  log-date-time:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Log current date and time
+      run: |
+        echo "Logging current date and time"
+        current_date_time=$(date)
+        echo "$current_date_time" >> date_time_log.txt
+
+    - name: Commit changes
+      run: |
+        git config --local user.name 'github-actions'
+        git config --local user.email 'github-actions@github.com'
+        git add date_time_log.txt
+        git commit -m 'Log current date and time'
+
+    - name: Push changes
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }} 
